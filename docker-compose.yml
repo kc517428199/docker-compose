@@ -1,0 +1,56 @@
+version: '3'
+services:
+    w_centos:
+        build:
+            context: .
+            dockerfile: centos7-df
+        volumes:
+            - /Users/Shared/docker/docker-compose/www:/data/nginx/wwwroot
+        stdin_open: true
+        tty: true
+    w_nginx:
+        image: nginx
+        volumes:
+            - /Users/Shared/docker/docker-compose/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - /Users/Shared/docker/docker-compose/nginx/conf.d:/etc/nginx/conf.d
+            - /Users/Shared/docker/docker-compose/logs:/var/log/nginx
+            - /Users/Shared/docker/docker-compose/www:/usr/share/nginx/html
+        ports:
+            - 8089:80
+    w_php-fpm7.3:
+        build: 
+            context: .
+            dockerfile: fpm7.3-df
+        volumes:
+            - /Users/Shared/docker/docker-compose/www:/www
+        expose: 
+            - "9000"
+    w_php-fpm5.6:
+        build: 
+            context: .
+            dockerfile: fpm5.6-df
+        volumes:
+            - /Users/Shared/docker/docker-compose/www:/www
+        expose: 
+            - "9001"
+    w_mysql:
+        image: mysql:5.6
+        volumes:
+            - /Users/Shared/docker/docker-compose/data/mysql:/var/lib/mysql
+        environment:
+            TZ: 'Asia/Shanghai'
+            MYSQL_ROOT_PASSWORD: 123456
+        command: ['mysqld', '--character-set-server=utf8']
+        ports:
+            - 33061:3306
+        expose: 
+            - "3306"
+    w_redis:
+        image: redis
+        restart: always
+        volumes:
+            - /Users/Shared/docker/docker-compose/data/redis:/data
+        ports:
+            - "63791:6379"
+        expose:
+            - "6379"
