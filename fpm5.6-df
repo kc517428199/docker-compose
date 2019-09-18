@@ -1,4 +1,4 @@
 FROM php:5.6-fpm
-RUN apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev 
+RUN apt-get update && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev vim
 RUN pecl install redis && docker-php-ext-enable redis
-RUN docker-php-ext-install -j$(nproc) iconv gd pdo pdo_mysql
+RUN docker-php-ext-install -j$(nproc) iconv gd pdo pdo_mysql mysqli
