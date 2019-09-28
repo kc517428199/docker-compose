@@ -16,7 +16,7 @@ services:
             - /Users/Shared/docker/docker-compose/logs:/var/log/nginx
             - /Users/Shared/docker/docker-compose/www:/usr/share/nginx/html
         ports:
-            - 8089:80
+            - 80:80
     w_php-fpm7.3:
         build: 
             context: .
